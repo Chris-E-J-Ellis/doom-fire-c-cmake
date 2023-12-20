@@ -1,0 +1,6 @@
+*.dll
+*.o
+
+.idea
+cmake*/
+libs/
