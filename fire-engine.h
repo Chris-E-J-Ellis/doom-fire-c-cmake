@@ -1,7 +1,8 @@
 #ifndef FIRE_ENGINE_H
 #define FIRE_ENGINE_H
 
-typedef struct {
+typedef struct
+{
     int width;
     int height;
     int *data;

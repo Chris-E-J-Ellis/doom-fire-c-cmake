@@ -19,8 +19,8 @@ int main(int argc, char **argv)
 
     if (argc < 3)
     {
-      printf("Insufficient arguments supplied.\n");
-      printf("Usage: doom-fire [WIDTH] [HEIGHT]\n");
+        printf("Insufficient arguments supplied.\n");
+        printf("Usage: doom-fire [WIDTH] [HEIGHT]\n");
         arg_error = true;
     }
 

@@ -17,7 +17,7 @@ void engine_create_buffer(int width, int height, doom_fire_buffer_t **const buff
 void engine_destroy_buffer(doom_fire_buffer_t **const buffer)
 {
     free((*buffer)->data);
-        free(*buffer);
+    free(*buffer);
     *buffer = NULL;
 }
 
