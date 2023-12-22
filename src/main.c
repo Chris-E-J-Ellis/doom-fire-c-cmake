@@ -24,19 +24,19 @@ int main(int argc, char **argv)
         arg_error = true;
     }
 
-    // if (process_additional_args(argc - 3, &argv[3]) == 1)
-    // {
-    //     printf("Unable to process additional arguments.");
-    //     arg_error = true;
-    // }
-
     int width = !arg_error ? atoi(argv[1]) : 300;
     int height = !arg_error ? atoi(argv[2]) : 300;
 
+    const fire_renderer_t renderer = sdl_get_renderer();
+
+    if (renderer.process_additional_args(argc - 3, &argv[3]) == 1)
+    {
+        printf("Unable to process additional arguments.");
+        arg_error = true;
+    }
+
     doom_fire_buffer_t *buffer = NULL;
     engine_create_buffer(width, height, &buffer);
-
-    fire_renderer_t renderer = sdl_get_renderer();
 
     int init_success = renderer.init(buffer);
     if (init_success != 0)
