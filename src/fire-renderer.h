@@ -10,7 +10,7 @@ typedef void (*renderer_draw_buffer)(doom_fire_buffer_t *const buffer);
 typedef bool (*renderer_exit_requested)();
 typedef int (*renderer_get_max_ignition_value)();
 typedef int (*renderer_init_renderer)(const doom_fire_buffer_t *const buffer);
-typedef int (*renderer_process_additional_args)(int argc, char **argv);
+typedef bool (*renderer_process_additional_args)(int argc, char **argv);
 typedef void (*renderer_wait)();
 
 typedef struct

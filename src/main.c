@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static volatile bool keep_running = true;
+static bool keep_running = true;
 static void sig_handler(int input)
 {
     (void)input;
@@ -15,24 +15,25 @@ static void sig_handler(int input)
 
 int main(int argc, char **argv)
 {
-    bool arg_error = false;
+    setvbuf(stdout, NULL, _IONBF, 0);
+    bool use_default_args = false;
 
     if (argc < 3)
     {
-        printf("Insufficient arguments supplied.\n");
+        printf("Insufficient arguments supplied, using default resolution: 300x300\n");
         printf("Usage: doom-fire [WIDTH] [HEIGHT]\n");
-        arg_error = true;
+        use_default_args = true;
     }
 
-    int width = !arg_error ? atoi(argv[1]) : 300;
-    int height = !arg_error ? atoi(argv[2]) : 300;
+    int width = !use_default_args ? atoi(argv[1]) : 300;
+    int height = !use_default_args ? atoi(argv[2]) : 300;
 
     const fire_renderer_t renderer = sdl_get_renderer();
 
-    if (renderer.process_additional_args(argc - 3, &argv[3]) == 1)
+    if (!renderer.process_additional_args(argc - 3, &argv[3]))
     {
         printf("Unable to process additional arguments.");
-        arg_error = true;
+        return 1;
     }
 
     doom_fire_buffer_t *buffer = NULL;

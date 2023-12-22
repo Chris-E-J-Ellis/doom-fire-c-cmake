@@ -13,14 +13,14 @@ static SDL_Surface *buffer_surface = NULL;
 static SDL_Rect renderRect = {.x = 0, .y = 0};
 static fire_renderer_t fire_renderer;
 
-static int process_additional_args(int argc, char **argv)
+static bool process_additional_args(int argc, char **argv)
 {
     (void)argv;
 
-    if (argc > 3)
-        return 1;
+    if (argc > 0)
+        return false;
 
-    return 0;
+    return true;
 }
 
 static int init(const doom_fire_buffer_t *const buffer)
