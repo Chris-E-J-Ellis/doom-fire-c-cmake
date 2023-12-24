@@ -1,6 +1,5 @@
 #include "SDL.h"
 #include "fire-engine.h"
-#include "fire-palette.h"
 #include "fire-renderer.h"
 
 #include <stdio.h>
@@ -10,8 +9,9 @@ static SDL_Window *window = NULL;
 static SDL_Renderer *renderer = NULL;
 static SDL_Surface *window_surface = NULL;
 static SDL_Surface *buffer_surface = NULL;
-static SDL_Rect renderRect = {.x = 0, .y = 0};
+static SDL_Rect render_rect = {.x = 0, .y = 0};
 static fire_renderer_t fire_renderer;
+static doom_fire_palette_t fire_palette;
 
 static bool process_additional_args(int argc, char **argv)
 {
@@ -23,8 +23,10 @@ static bool process_additional_args(int argc, char **argv)
     return true;
 }
 
-static int init(const doom_fire_buffer_t *const buffer)
+static int init(const doom_fire_buffer_t *const buffer, const doom_fire_palette_t *const palette)
 {
+    fire_palette = *palette;
+
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
         printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
@@ -52,14 +54,13 @@ static int init(const doom_fire_buffer_t *const buffer)
         return 1;
     }
 
-    SDL_GetWindowSize(window, &renderRect.w, &renderRect.h);
+    SDL_GetWindowSize(window, &render_rect.w, &render_rect.h);
     return 0;
 }
 
 static int get_max_ignition_value()
 {
-    int palette_size = palette_get_size();
-    return palette_size - 1;
+    return (int)fire_palette.size - 1;
 }
 
 static void draw_buffer(doom_fire_buffer_t *const buffer)
@@ -70,9 +71,9 @@ static void draw_buffer(doom_fire_buffer_t *const buffer)
         {
             int pixel = buffer->data[x + (y * buffer->width)];
             int palette_index = pixel * 3;
-            Uint8 r = DOOM_RGB_VALUES[palette_index];
-            Uint8 g = DOOM_RGB_VALUES[palette_index + 1];
-            Uint8 b = DOOM_RGB_VALUES[palette_index + 2];
+            Uint8 r = fire_palette.rgb_data[palette_index];
+            Uint8 g = fire_palette.rgb_data[palette_index + 1];
+            Uint8 b = fire_palette.rgb_data[palette_index + 2];
 
             Uint8 *buffer_pixels = (Uint8 *)buffer_surface->pixels;
             Uint32 *target_pixel = (Uint32 *)(buffer_pixels + y * buffer_surface->pitch + x * sizeof(*target_pixel));
@@ -81,7 +82,7 @@ static void draw_buffer(doom_fire_buffer_t *const buffer)
         }
     }
 
-    SDL_BlitScaled(buffer_surface, NULL, window_surface, &renderRect);
+    SDL_BlitScaled(buffer_surface, NULL, window_surface, &render_rect);
     SDL_UpdateWindowSurface(window);
 }
 
@@ -105,7 +106,7 @@ static bool exit_requested()
             {
                 SDL_FreeSurface(window_surface);
                 window_surface = SDL_GetWindowSurface(window);
-                SDL_GetWindowSize(window, &renderRect.w, &renderRect.h);
+                SDL_GetWindowSize(window, &render_rect.w, &render_rect.h);
             }
         }
     }

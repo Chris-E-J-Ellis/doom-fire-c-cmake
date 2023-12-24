@@ -3,8 +3,12 @@
 
 #include <stdint.h>
 
-extern const uint8_t DOOM_RGB_VALUES[];
+typedef struct
+{
+    const uint8_t *rgb_data;
+    size_t size;
+} doom_fire_palette_t;
 
-int palette_get_size();
+const doom_fire_palette_t *palette_get();
 
 #endif
