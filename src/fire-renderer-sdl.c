@@ -23,47 +23,47 @@ static bool process_additional_args(int argc, char **argv)
     return true;
 }
 
-static int init(const doom_fire_buffer_t *const buffer, const doom_fire_palette_t *const palette)
+static bool init(const doom_fire_buffer_t *buffer, const doom_fire_palette_t *palette)
 {
     fire_palette = *palette;
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
         printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-        return 1;
+        return false;
     }
 
     SDL_CreateWindowAndRenderer(buffer->width, buffer->height, SDL_WINDOW_RESIZABLE, &window, &renderer);
     if (window == NULL)
     {
         printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-        return 1;
+        return false;
     }
 
     window_surface = SDL_GetWindowSurface(window);
     if (window_surface == NULL)
     {
         printf("Window surface could not be created! SDL_Error: %s\n", SDL_GetError());
-        return 1;
+        return false;
     }
 
     buffer_surface = SDL_CreateRGBSurface(0, buffer->width, buffer->height, 32, 0, 0, 0, 0);
     if (buffer_surface == NULL)
     {
         printf("Buffer surface could not be created! SDL_Error: %s\n", SDL_GetError());
-        return 1;
+        return false;
     }
 
     SDL_GetWindowSize(window, &render_rect.w, &render_rect.h);
-    return 0;
+    return true;
 }
 
-static int get_max_ignition_value()
+static uint8_t get_max_ignition_value(void)
 {
-    return (int)fire_palette.size - 1;
+    return fire_palette.size - 1;
 }
 
-static void draw_buffer(doom_fire_buffer_t *const buffer)
+static void draw_buffer(const doom_fire_buffer_t *buffer)
 {
     for (int y = 0; y < buffer->height; y++)
     {
@@ -86,12 +86,12 @@ static void draw_buffer(doom_fire_buffer_t *const buffer)
     SDL_UpdateWindowSurface(window);
 }
 
-static void wait()
+static void wait(void)
 {
     usleep(1000);
 }
 
-static bool exit_requested()
+static bool exit_requested(void)
 {
     SDL_Event e;
     while (SDL_PollEvent(&e) != 0)
@@ -113,7 +113,7 @@ static bool exit_requested()
     return false;
 }
 
-static void cleanup_renderer()
+static void cleanup_renderer(void)
 {
     SDL_FreeSurface(buffer_surface);
     SDL_DestroyRenderer(renderer);

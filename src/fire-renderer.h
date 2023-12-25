@@ -6,13 +6,13 @@
 
 #include <stdbool.h>
 
-typedef void (*renderer_cleanup_renderer)();
-typedef void (*renderer_draw_buffer)(doom_fire_buffer_t *const buffer);
-typedef bool (*renderer_exit_requested)();
-typedef int (*renderer_get_max_ignition_value)();
-typedef int (*renderer_init_renderer)(const doom_fire_buffer_t *const buffer, const doom_fire_palette_t *const palette);
+typedef void (*renderer_cleanup_renderer)(void);
+typedef void (*renderer_draw_buffer)(const doom_fire_buffer_t *buffer);
+typedef bool (*renderer_exit_requested)(void);
+typedef uint8_t (*renderer_get_max_ignition_value)(void);
+typedef bool (*renderer_init_renderer)(const doom_fire_buffer_t *buffer, const doom_fire_palette_t *palette);
 typedef bool (*renderer_process_additional_args)(int argc, char **argv);
-typedef void (*renderer_wait)();
+typedef void (*renderer_wait)(void);
 
 typedef struct
 {

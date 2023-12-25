@@ -21,7 +21,7 @@ void engine_destroy_buffer(doom_fire_buffer_t **const buffer)
     *buffer = NULL;
 }
 
-void engine_init_buffer(doom_fire_buffer_t *const buffer, int ignitionValue)
+void engine_init_buffer(doom_fire_buffer_t *const buffer, uint8_t ignition_value)
 {
     srand(time(NULL));
 
@@ -32,7 +32,7 @@ void engine_init_buffer(doom_fire_buffer_t *const buffer, int ignitionValue)
 
     for (int i = (buffer->height - 1) * buffer->width; i < buffer->height * buffer->width; i++)
     {
-        buffer->data[i] = ignitionValue;
+        buffer->data[i] = ignition_value;
     }
 }
 
@@ -42,7 +42,7 @@ void engine_step_fire(doom_fire_buffer_t *const buffer)
     {
         for (int y = 1; y < buffer->height; y++)
         {
-            int buffer_position = (y * buffer->width) + x;
+            const int buffer_position = (y * buffer->width) + x;
             spread_fire(buffer->data, buffer_position, buffer->width);
         }
     }
@@ -50,7 +50,7 @@ void engine_step_fire(doom_fire_buffer_t *const buffer)
 
 static void spread_fire(int *const data, int source_position, int width)
 {
-    int pixel = data[source_position];
+    const int pixel = data[source_position];
 
     if (pixel <= 0)
     {
@@ -58,8 +58,8 @@ static void spread_fire(int *const data, int source_position, int width)
     }
     else
     {
-        int decay = rand() & 3;
-        int destination_position = (source_position - width) - decay + 1;
+        const int decay = rand() & 3;
+        const int destination_position = (source_position - width) - decay + 1;
         if (destination_position < 0)
             return;
 

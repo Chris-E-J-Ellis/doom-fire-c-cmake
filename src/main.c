@@ -19,17 +19,16 @@ static void sig_handler(int input)
 
 int main(int argc, char **argv)
 {
-    bool use_default_args = false;
+    const bool use_default_args = argc < DEFAULT_ARG_COUNT;
 
-    if (argc < DEFAULT_ARG_COUNT)
+    if (use_default_args)
     {
         printf("Insufficient arguments supplied, using default resolution: 300x300\n");
         printf("Usage: doom-fire [WIDTH] [HEIGHT]\n");
-        use_default_args = true;
     }
 
-    int width = !use_default_args ? strtol(argv[1], NULL, 10) : DEFAULT_WIDTH;
-    int height = !use_default_args ? strtol(argv[2], NULL, 10) : DEFAULT_HEIGHT;
+    const int width = !use_default_args ? strtol(argv[1], NULL, 10) : DEFAULT_WIDTH;
+    const int height = !use_default_args ? strtol(argv[2], NULL, 10) : DEFAULT_HEIGHT;
 
     const fire_renderer_t renderer = sdl_get_renderer();
 
@@ -39,13 +38,14 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    doom_fire_buffer_t *buffer = NULL;
-    engine_create_buffer(width, height, &buffer);
     const doom_fire_palette_t *const palette = palette_get();
 
+    doom_fire_buffer_t *buffer = {0};
+    engine_create_buffer(width, height, &buffer);
+
     int init_success = renderer.init(buffer, palette);
-    if (init_success != 0)
-        return init_success;
+    if (!init_success)
+        return 1;
 
     const int ignition_value = renderer.get_max_ignition_value();
     engine_init_buffer(buffer, ignition_value);

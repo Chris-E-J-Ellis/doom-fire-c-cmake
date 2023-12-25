@@ -6,3 +6,7 @@ Largely just a small project for some experimentation with CMake, naming convent
 
 ## Requirements
 - [SDL2](https://www.libsdl.org/) developement libraries and headers should be extracted to `./libs/SDL2` folder
+
+## TODO:
+- Fixup clang tidy
+- Try another renderer
