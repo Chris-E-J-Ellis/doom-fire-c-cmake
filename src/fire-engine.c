@@ -4,14 +4,14 @@
 #include <stdlib.h>
 #include <time.h>
 
-static void spread_fire(int *data, int source_position, int width);
+static inline void spread_fire(uint8_t *data, uint32_t source_position, uint16_t width);
 
-void engine_create_buffer(int width, int height, doom_fire_buffer_t **const buffer)
+void engine_create_buffer(uint16_t width, uint16_t height, doom_fire_buffer_t **const buffer)
 {
     *buffer = malloc(sizeof(doom_fire_buffer_t));
     (*buffer)->width = width;
     (*buffer)->height = height;
-    (*buffer)->data = malloc(width * height * sizeof(int));
+    (*buffer)->data = malloc(width * height * sizeof(uint8_t));
 }
 
 void engine_destroy_buffer(doom_fire_buffer_t **const buffer)
@@ -42,13 +42,13 @@ void engine_step_fire(doom_fire_buffer_t *const buffer)
     {
         for (int y = 1; y < buffer->height; y++)
         {
-            const int buffer_position = (y * buffer->width) + x;
+            const uint32_t buffer_position = (y * buffer->width) + x;
             spread_fire(buffer->data, buffer_position, buffer->width);
         }
     }
 }
 
-static void spread_fire(int *const data, int source_position, int width)
+static inline void spread_fire(uint8_t *const data, uint32_t source_position, uint16_t width)
 {
     const int pixel = data[source_position];
 
@@ -59,7 +59,7 @@ static void spread_fire(int *const data, int source_position, int width)
     else
     {
         const int decay = rand() & 3;
-        const int destination_position = (source_position - width) - decay + 1;
+        const int destination_position = ((int)source_position - width) - decay + 1;
         if (destination_position < 0)
             return;
 

@@ -11,8 +11,9 @@ set(SOURCES main.c
         fire-palette.c
         fire-palette.h)
 
-
 add_executable(${PROJECT_NAME} ${SOURCES})
+
+target_compile_options(doom_fire_c_experiment PRIVATE -Werror -Wall -Wextra)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
         SDL2::SDL2)

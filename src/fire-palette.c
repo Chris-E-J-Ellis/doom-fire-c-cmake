@@ -47,7 +47,7 @@ static const doom_fire_palette_t palette =
     .size = sizeof(palette_doom_rgb_values) / sizeof(uint8_t) / 3
 };
 
-const doom_fire_palette_t * palette_get()
+const doom_fire_palette_t *palette_get()
 {
     return &palette;
 }
