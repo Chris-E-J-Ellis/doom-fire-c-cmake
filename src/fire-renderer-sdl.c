@@ -126,7 +126,7 @@ static void cleanup_renderer(void)
     SDL_Quit();
 }
 
-fire_renderer_t sdl_get_renderer(void)
+fire_renderer_t get_renderer_sdl(void)
 {
     fire_renderer = (fire_renderer_t){
             .cleanup_renderer = cleanup_renderer,

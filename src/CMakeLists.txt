@@ -9,7 +9,9 @@ set(SOURCES main.c
         fire-renderer-sdl.c
         fire-renderer-sdl.h
         fire-palette.c
-        fire-palette.h)
+        fire-palette.h
+        fire-renderer-text.c
+        fire-renderer-text.h)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 

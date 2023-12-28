@@ -3,6 +3,6 @@
 
 #include "fire-renderer.h"
 
-fire_renderer_t sdl_get_renderer(void);
+fire_renderer_t get_renderer_sdl(void);
 
 #endif
