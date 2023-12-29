@@ -8,4 +8,4 @@ Largely just a small project for some experimentation with CMake, naming convent
 - [SDL2](https://www.libsdl.org/) developement libraries and headers should be extracted to `./libs/SDL2` folder
 
 ## TODO:
-- Try another renderer
+- Try another renderer library

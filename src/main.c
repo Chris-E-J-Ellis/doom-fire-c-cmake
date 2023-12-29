@@ -8,8 +8,8 @@
 #include <stdlib.h>
 
 #define DEFAULT_ARG_COUNT 3
-#define DEFAULT_WIDTH 30
-#define DEFAULT_HEIGHT 30
+#define DEFAULT_WIDTH 300
+#define DEFAULT_HEIGHT 300
 
 static bool keep_running = true;
 static void sig_handler(int input)
@@ -31,8 +31,8 @@ int main(int argc, char **argv)
     const int width = !use_default_args ? strtol(argv[1], NULL, 10) : DEFAULT_WIDTH;
     const int height = !use_default_args ? strtol(argv[2], NULL, 10) : DEFAULT_HEIGHT;
 
-    const fire_renderer_t renderer = get_renderer_sdl();
-    // const fire_renderer_t renderer = get_renderer_text();
+   const fire_renderer_t renderer = get_renderer_sdl();
+   // const fire_renderer_t renderer = get_renderer_text();
 
     if (!renderer.process_additional_args(argc - DEFAULT_ARG_COUNT, &argv[DEFAULT_ARG_COUNT]))
     {
