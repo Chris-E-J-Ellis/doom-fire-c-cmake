@@ -1,9 +1,19 @@
 set(SDL2_DIR ${LIBS_DIR}/SDL2/cmake)
 
+set(SDL2_NO_MWINDOWS TRUE) # Disable -mwindows link option
 find_package(SDL2 REQUIRED)
+
+target_include_directories(${PROJECT_NAME} PRIVATE
+        ../../libs/PDCurses
+)
+
+find_library(PDC_LIB pdcurses REQUIRED HINTS ${LIBS_DIR}/PDCurses) # TODO: Figure out how to copy this to output dir
+find_path(PDC_INCLUDES curses.h PATHS ${LIBS_DIR}/PDCurses)
 
 target_sources(doom_fire_c_experiment
         PRIVATE
+        fire-renderer-curses.c
+        fire-renderer-curses.h
         fire-renderer-sdl.c
         fire-renderer-sdl.h
         fire-renderer-text.c
@@ -11,4 +21,6 @@ target_sources(doom_fire_c_experiment
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-        SDL2::SDL2)
+        SDL2::SDL2
+        ${PDC_LIB}
+)

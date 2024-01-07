@@ -5,7 +5,7 @@ A version of the Doom Fire effect, inspired by the excellent article by [Fabien 
 Largely just a small project for some experimentation with CMake, naming conventions, and general malarky.
 
 ## Requirements
-- [SDL2](https://www.libsdl.org/) developement libraries and headers should be extracted to `./libs/SDL2` folder
+- [SDL2](https://www.libsdl.org/) development libraries and headers should be extracted to `./libs/SDL2` folder
 
 ## TODO:
 - Try another renderer library

@@ -1,4 +1,5 @@
 #include "fire-engine.h"
+#include "fire-renderer-curses.h"
 #include "fire-renderer-sdl.h"
 #include "fire-renderer-text.h"
 
@@ -8,8 +9,8 @@
 #include <stdlib.h>
 
 #define DEFAULT_ARG_COUNT 3
-#define DEFAULT_WIDTH 300
-#define DEFAULT_HEIGHT 300
+#define DEFAULT_WIDTH 30
+#define DEFAULT_HEIGHT 30
 
 static bool keep_running = true;
 static void sig_handler(int input)
@@ -31,8 +32,9 @@ int main(int argc, char **argv)
     const int width = !use_default_args ? strtol(argv[1], NULL, 10) : DEFAULT_WIDTH;
     const int height = !use_default_args ? strtol(argv[2], NULL, 10) : DEFAULT_HEIGHT;
 
-   const fire_renderer_t renderer = get_renderer_sdl();
-   // const fire_renderer_t renderer = get_renderer_text();
+    const fire_renderer_t renderer = get_renderer_curses();
+    //const fire_renderer_t renderer = get_renderer_sdl();
+    //const fire_renderer_t renderer = get_renderer_text();
 
     if (!renderer.process_additional_args(argc - DEFAULT_ARG_COUNT, &argv[DEFAULT_ARG_COUNT]))
     {
@@ -47,7 +49,7 @@ int main(int argc, char **argv)
 
     int init_success = renderer.init(buffer, palette);
     if (!init_success)
-        return 1;
+        return 2;
 
     const int ignition_value = renderer.get_max_ignition_value();
     engine_init_buffer(buffer, ignition_value);
