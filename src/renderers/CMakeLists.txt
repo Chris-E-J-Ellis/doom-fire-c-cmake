@@ -25,3 +25,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         SDL2::SDL2
         ${PDC_LIB}
 )
+
+# Copy pdcurses dll separately because CMake...
+add_custom_target(PDC_DLL_COPY
+        ALL
+        COMMAND ${CMAKE_COMMAND} -E copy "${PDC_DLL}" "${CMAKE_BINARY_DIR}"
+        COMMENT "Copy dll file to ${CMAKE_BINARY_DIR} directory" VERBATIM)
