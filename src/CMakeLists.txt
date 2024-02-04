@@ -16,7 +16,13 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 add_subdirectory(renderers)
 
 # Copy required dlls
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+add_custom_command(TARGET ${PROJECT_NAME}
+        POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy -t $<TARGET_FILE_DIR:${PROJECT_NAME}> $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}>
-        COMMAND_EXPAND_LISTS
-)
+        COMMAND_EXPAND_LISTS)
+
+# Copy pdcurses dll separately because CMake...
+add_custom_command(TARGET ${PROJECT_NAME}
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy "${PDC_DLL}" "${CMAKE_BINARY_DIR}"
+        COMMENT "Copy dll file to ${CMAKE_BINARY_DIR} directory" VERBATIM)

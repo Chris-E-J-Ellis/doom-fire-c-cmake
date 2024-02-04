@@ -82,9 +82,12 @@ static bool process_additional_args(int argc, char **argv)
     }
 
     if (argv[0][1] == 'c')
+    {
         use_custom_colours = true;
+        return true;
+    }
 
-    return true;
+    return false;
 }
 
 static void wait(void)

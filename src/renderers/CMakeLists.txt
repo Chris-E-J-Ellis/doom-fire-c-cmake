@@ -7,8 +7,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE
         ../../libs/PDCurses
 )
 
-find_library(PDC_LIB pdcurses REQUIRED HINTS ${LIBS_DIR}/PDCurses) # TODO: Figure out how to copy this to output dir
+find_library(PDC_LIB pdcurses REQUIRED HINTS ${LIBS_DIR}/PDCurses)
 find_path(PDC_INCLUDES curses.h PATHS ${LIBS_DIR}/PDCurses)
+find_file(PDC_DLL pdcurses.dll PATHS ${LIBS_DIR}/PDCurses)
 
 target_sources(doom_fire_c_experiment
         PRIVATE
