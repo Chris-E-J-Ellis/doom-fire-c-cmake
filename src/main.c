@@ -1,7 +1,11 @@
 #include "fire-engine.h"
+#if defined(RENDERER_CURSES)
 #include "fire-renderer-curses.h"
+#elif defined(RENDERER_SDL)
 #include "fire-renderer-sdl.h"
+#else
 #include "fire-renderer-text.h"
+#endif
 
 #include <signal.h>
 #include <stdbool.h>
@@ -9,8 +13,6 @@
 #include <stdlib.h>
 
 #define DEFAULT_ARG_COUNT 3
-#define DEFAULT_WIDTH 30
-#define DEFAULT_HEIGHT 30
 
 static bool keep_running = true;
 static void sig_handler(int input)
@@ -32,9 +34,13 @@ int main(int argc, char **argv)
     const int width = !use_default_args ? strtol(argv[1], NULL, 10) : DEFAULT_WIDTH;
     const int height = !use_default_args ? strtol(argv[2], NULL, 10) : DEFAULT_HEIGHT;
 
+#if defined(RENDERER_CURSES)
     const fire_renderer_t renderer = get_renderer_curses();
-    //const fire_renderer_t renderer = get_renderer_sdl();
-    //const fire_renderer_t renderer = get_renderer_text();
+#elif defined(RENDERER_SDL)
+    const fire_renderer_t renderer = get_renderer_sdl();
+#else
+    const fire_renderer_t renderer = get_renderer_text();
+#endif
 
     if (!renderer.process_additional_args(argc - DEFAULT_ARG_COUNT, &argv[DEFAULT_ARG_COUNT]))
     {
