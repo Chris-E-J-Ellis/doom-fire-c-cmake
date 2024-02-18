@@ -27,7 +27,7 @@ int main(int argc, char **argv)
 
     if (use_default_args)
     {
-        printf("Insufficient arguments supplied, using default resolution: 300x300\n");
+        printf("Insufficient arguments supplied, using default resolution %ix%i\n", DEFAULT_WIDTH, DEFAULT_HEIGHT);
         printf("Usage: doom-fire [WIDTH] [HEIGHT]\n");
     }
 
